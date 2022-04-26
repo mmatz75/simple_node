@@ -18,6 +18,7 @@
       <h1 class="display-4"><%=title %></h1>
     </header>
     <div class="main"><p><%=content %></p></div>
-    <p><a href="/other">Other pageに移動 &gt;&gt;</a></p>
+    <% let id = 0 %> <% for(let key in data) {%> <%- include('data_item', { id:
+    ++id, key: key, val: [data[key]] }) %> <% } %>
   </body>
 </html>
