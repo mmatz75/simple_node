@@ -5,7 +5,7 @@ const url = require('url')
 const qs = require('querystring')
 
 const index_page = fs.readFileSync('./index.ejs', 'utf8')
-const other_page = fs.readFileSync('./other.ejs', 'utf8')
+// const other_page = fs.readFileSync('./other.ejs', 'utf8')
 const style_css = fs.readFileSync('./style.css', 'utf8')
 
 let server = http.createServer(getFromClient)
@@ -40,49 +40,38 @@ function getFromClient(request, response) {
 }
 
 //
-function response_index(request, response) {
-  const data = {
-    Taro: '09-999-999',
-    Hanako: '080-888-888',
-    Sachiko: '070-777-777',
-    Ichiro: '060-666-666',
-  }
-
-  let msg = 'これはIndexページです。'
-  let content = ejs.render(index_page, {
-    title: 'Index',
-    content: msg,
-    data: data,
-    filename: 'data_item',
-  })
-  response.writeHead(200, { 'Content-type': 'text/html' })
-  response.write(content)
-  response.end()
-}
+let data = { msg: 'no message...' }
 
 //
-function response_other(request, response) {
-  let msg = 'これはOtherページです。'
-
+function response_index(request, response) {
   //
   if (request.method == 'POST') {
     let body = ''
 
+    //
     request.on('data', (data) => {
       body += data
     })
 
+    //
     request.on('end', () => {
-      let post_data = qs.parse(body)
-      msg += 'あなたは、「' + post_data.msg + '」と書きました。'
-
-      let content = ejs.render(other_page, {
-        title: 'Other',
-        content: msg,
-      })
-      response.writeHead(200, { 'Content-type': 'text/html' })
-      response.write(content)
-      response.end()
+      data = qs.parse(body)
+      write_index(request, response)
     })
+  } else {
+    write_index(request, response)
   }
+}
+
+//
+function write_index(request, response) {
+  let msg = '伝言を表示します。'
+  let content = ejs.render(index_page, {
+    title: 'Index',
+    content: msg,
+    data: data,
+  })
+  response.writeHead(200, { 'Content-type': 'text/html' })
+  response.write(content)
+  response.end()
 }
