@@ -5,8 +5,12 @@ const url = require('url')
 const qs = require('querystring')
 
 const index_page = fs.readFileSync('./index.ejs', 'utf8')
-// const other_page = fs.readFileSync('./other.ejs', 'utf8')
-const style_css = fs.readFileSync('./style.css', 'utf8')
+const login_page = fs.readFileSync('./login.ejs', 'utf8')
+
+const max_num = 10
+const filename = 'data.txt'
+let message_data
+readFromFile(filename)
 
 let server = http.createServer(getFromClient)
 
@@ -16,21 +20,14 @@ console.log('Server started!')
 //
 function getFromClient(request, response) {
   let url_parts = url.parse(request.url, true)
-  let content = ''
 
   switch (url_parts.pathname) {
     case '/':
       response_index(request, response)
       break
 
-    case '/other':
-      response_other(request, response)
-      break
-
-    case '/style.css':
-      response.writeHead(200, { 'Content-type': 'text/css' })
-      response.write(style_css)
-      response.end()
+    case '/login':
+      response_login(request, response)
       break
 
     default:
@@ -40,7 +37,12 @@ function getFromClient(request, response) {
 }
 
 //
-let data = { msg: 'no message...' }
+function response_index(request, response) {
+  let content = ejs.render(login_page, {})
+  response.writeHead(200, { 'Content-type': 'text/html' })
+  response.write(content)
+  response.end()
+}
 
 //
 function response_index(request, response) {
@@ -56,7 +58,7 @@ function response_index(request, response) {
     //
     request.on('end', () => {
       data = qs.parse(body)
-      setCookie('msg', data.msg, response)
+      addToData(data.id, data.msg, filename, request)
       write_index(request, response)
     })
   } else {
@@ -66,13 +68,12 @@ function response_index(request, response) {
 
 //
 function write_index(request, response) {
-  let msg = '伝言を表示します。'
-  let cookie_data = getCookie('msg', request)
+  let msg = 'メッセージを書いてください。'
   let content = ejs.render(index_page, {
     title: 'Index',
     content: msg,
-    data: data,
-    cookie_data: cookie_data,
+    data: message_data,
+    filename: 'data_item',
   })
   response.writeHead(200, { 'Content-type': 'text/html' })
   response.write(content)
@@ -80,21 +81,30 @@ function write_index(request, response) {
 }
 
 //
-function setCookie(key, value, response) {
-  let cookie = encodeURI(value)
-  response.setHeader('Set-Cookie', [key + '=' + cookie])
+function readFromFile(fname) {
+  fs.readFile(fname, 'utf8', (err, data) => {
+    message_data = data.split('\n')
+  })
 }
 
 //
-function getCookie(key, request) {
-  let cookie_data =
-    request.headers.cookie != undefined ? request.headers.cookie : ''
-  let cookie_parts = cookie_data.split(';')
-  for (let i in cookie_parts) {
-    if (cookie_parts[i].trim().startsWith(key + '=')) {
-      let result = cookie_parts[i].trim().substring(key.length + 1)
-      return decodeURI(result)
-    }
+function addToData(id, msg, fname, request) {
+  let obj = { id: id, msg: msg }
+  let obj_str = JSON.stringify(obj)
+  console.log('add data: ' + obj_str)
+  message_data.unshift(obj_str)
+  if (message_data.length > max_num) {
+    message_data.pop()
   }
-  return ''
+  saveToFile(fname)
+}
+
+//
+function saveToFile(fname) {
+  let data_str = message_data.join('\n')
+  fs.writeFile(fname, data_str, (err) => {
+    if (err) {
+      throw err
+    }
+  })
 }
