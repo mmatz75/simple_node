@@ -1,3 +1,0 @@
-{"id":"taro","msg":"hello!"}
-{"id":"taro","msg":"おはよう"}
-{"id":"taro","msg":"おはよう"}
