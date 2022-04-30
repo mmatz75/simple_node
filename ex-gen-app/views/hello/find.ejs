@@ -21,23 +21,29 @@
 
     <div class="main">
       <p><%= content %></p>
-      <table class="table">
+      <form action="/hello/find" method="post">
+        <div class="form-group">
+          <label for="find">FIND</label>
+          <input
+            type="text"
+            name="find"
+            id="find"
+            value="<%= find %>"
+            class="form-control"
+          />
+        </div>
+        <input type="submit" value="検索" class="btn btn-primary" />
+      </form>
+
+      <table class="table mt-4">
+        <% for (let i in mydata) { %> <% let obj = mydata[i] %>
         <tr>
-          <th>ID</th>
-          <td><%= mydata.id %></td>
+          <th><%= obj.id %></th>
+          <td><%= obj.name %></td>
+          <td><%= obj.mail %></td>
+          <td><%= obj.age %></td>
         </tr>
-        <tr>
-          <th>NAME</th>
-          <td><%= mydata.name %></td>
-        </tr>
-        <tr>
-          <th>MAIL</th>
-          <td><%= mydata.mail %></td>
-        </tr>
-        <tr>
-          <th>AGE</th>
-          <td><%= mydata.age %></td>
-        </tr>
+        <% } %>
       </table>
     </div>
   </body>
