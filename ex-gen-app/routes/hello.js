@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const sqlite3 = require('sqlite3')
+const { check, validationResult } = require('express-validator')
 
 //
 const db = new sqlite3.Database('mydb.sqlite3')
@@ -32,26 +33,56 @@ router.get('/', (req, res, next) => {
 
 //
 router.get('/add', (req, res, next) => {
-  //
-  db.serialize(() => {
-    //
-    let data = {
-      title: 'Hello/Add',
-      content: '新しいレコードを入力',
-    }
-    res.render('hello/add', data)
-  })
+  let data = {
+    title: 'Hello/Add',
+    content: '新しいレコードを入力',
+    form: { name: '', mail: '', age: '' },
+  }
+  res.render('hello/add', data)
 })
 
-router.post('/add', (req, res, next) => {
-  const nm = req.body.name
-  const ml = req.body.mail
-  const ag = req.body.age
-  db.serialize(() => {
-    db.run('insert into mydata (name, mail, age) values (?, ?, ?)', nm, ml, ag)
-    res.redirect('/hello')
-  })
-})
+router.post(
+  '/add',
+  [
+    check('name', 'NAMEを入力してください。').notEmpty().escape(),
+    check('mail', 'MAILを入力してください。').isEmail().escape(),
+    check('age', 'AGEは整数を入力してください。').isInt(),
+    check('age', 'AGEは0以上120以下で入力してください。').custom((value) => {
+      return (value >= 0) & (value <= 120)
+    }),
+  ],
+  (req, res, next) => {
+    const errors = validationResult(req)
+
+    if (!errors.isEmpty()) {
+      let result = '<ul class="text-danger">'
+      let result_arr = errors.array()
+      for (let i in result_arr) {
+        result += '<li>' + result_arr[i].msg + '</li>'
+      }
+      result += '</ul>'
+      let data = {
+        title: 'Hello/Add',
+        content: result,
+        form: req.body,
+      }
+      res.render('hello/add', data)
+    } else {
+      const nm = req.body.name
+      const ml = req.body.mail
+      const ag = req.body.age
+      db.serialize(() => {
+        db.run(
+          'insert into mydata (name, mail, age) values (?, ?, ?)',
+          nm,
+          ml,
+          ag
+        )
+        res.redirect('/hello')
+      })
+    }
+  }
+)
 
 //
 router.get('/show', (req, res, next) => {
