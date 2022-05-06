@@ -20,10 +20,26 @@
     </header>
 
     <div role="main">
+      <ol class="text-danger">
+        <% if (err != null) { for (let i in err.errors) { %>
+        <li><%= err.errors[i].message %></li>
+        <% }} %>
+      </ol>
       <form action="/users/add" method="post">
         <div class="form-group">
           <label for="name">NAME</label>
-          <input type="text" name="name" id="name" class="form-control" />
+          <input
+            type="text"
+            name="name"
+            id="name"
+            class="form-control"
+            value="<%= form.name %>"
+          />
+          <ul class="text-danger">
+            <% if (err != null) { for (let i in err.get('name')) { %>
+            <li><%= err.get('name')[i].message %></li>
+            <% }} %>
+          </ul>
         </div>
         <div class="form-group">
           <label for="pass">PASSWORD</label>
