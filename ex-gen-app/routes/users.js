@@ -41,7 +41,7 @@ router.post('/add', (req, res, next) => {
     .catch((err) => {
       let data = {
         title: 'Users/Add',
-        form: new db.User(),
+        form: form,
         err: err,
       }
       res.render('users/add', data)
