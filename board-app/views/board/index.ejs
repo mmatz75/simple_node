@@ -31,8 +31,15 @@
       </form>
 
       <table class="table mt-5">
-        <% for(let i in content) { %> <%- include('data_item', {val:
-        content[i]}) %> <% } %>
+        <% for (let i in content) { %>
+        <!-- -->
+        <script>
+          console.log(<%= content[i] %>)
+        </script>
+        <!-- -->
+        <%- include( './data_item', { val: content[i] } ) %>
+        <!-- -->
+        <% } %>
       </table>
 
       <ul class="pagination justify-content-center">

@@ -20,22 +20,32 @@
     </header>
 
     <div role="main">
-      <p><%- content %></p>
-      <form action="/users/login" method="post">
-        <div class="form-group">
-          <label for="name">NAME</label>
-          <input type="text" name="name" id="name" class="form-control" />
-        </div>
-        <div class="form-group">
-          <label for="pass">PASSWORD</label>
-          <input type="password" name="pass" id="pass" class="form-control" />
-        </div>
-        <input type="submit" value="ログイン" class="btn btn-primary" />
+      <table class="table">
+        <tr>
+          <th>NAME</th>
+          <td><%= form.name %></td>
+        </tr>
+        <tr>
+          <th>PASSWORD</th>
+          <td><%= form.pass %></td>
+        </tr>
+        <tr>
+          <th>MAIL</th>
+          <td><%= form.mail %></td>
+        </tr>
+        <tr>
+          <th>AGE</th>
+          <td><%= form.age %></td>
+        </tr>
+        <tr>
+          <th></th>
+          <td></td>
+        </tr>
+      </table>
+      <form action="/users/delete" method="post">
+        <input type="hidden" name="id" value="<%= form.id %>" />
+        <input type="submit" value="削除" class="btn btn-primary" />
       </form>
-      <p class="mt-4">
-        <a href="/board">&lt;&lt; Topへ戻る</a>&nbsp;&nbsp;
-        <a href="/users/add">アカウントの作成 &gt;&gt;</a>
-      </p>
     </div>
   </body>
 </html>
