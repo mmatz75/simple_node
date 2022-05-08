@@ -1,5 +1,4 @@
 .DS_Store
-
+ex-gen-app/
 node_modules/
-
 sample.txt
