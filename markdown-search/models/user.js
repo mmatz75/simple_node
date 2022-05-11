@@ -45,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
   )
 
   User.associate = (models) => {
-    User.hasMany(models.Board)
+    // User.hasMany(models.Board)
     User.hasMany(models.Markdata)
   }
 
