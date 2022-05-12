@@ -1,0 +1,41 @@
+version: '3'
+services:
+  mysql:
+    image: mysql:8.0
+    platform: linux/amd64
+    environment:
+      MYSQL_DATABASE: ${DATABASE}
+      MYSQL_USER: ${USERNAME}
+      MYSQL_PASSWORD: ${USERPASS}
+      MYSQL_ROOT_PASSWORD: ${ROOTPASS}
+    environment:
+      - TZ=Asia/Tokyo
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./mysql/conf:/etc/mysql/conf.d/:ro
+      - mysqldata:/var/lib/mysql
+    networks:
+      - default
+  app:
+    image: node
+    env_file: ./app.env
+    environment:
+      - TZ=Asia/Tokyo
+      - DEBUG=app:*
+    tty: true
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./src:/app
+    working_dir: /app
+    command: npm start
+    networks:
+      - default
+    depends_on:
+      - mysql
+networks:
+  default:
+# コンテナが削除されてもデータが消えずに保持される
+volumes:
+  mysqldata:
