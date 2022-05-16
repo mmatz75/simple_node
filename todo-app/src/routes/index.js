@@ -2,6 +2,10 @@ const express = require('express')
 const router = express.Router()
 const mysql = require('mysql')
 
+require('dotenv').config()
+console.log(process.env.ROOTPASS)
+console.log(require('dotenv').config())
+
 const connection = mysql.createConnection({
   host: '127.0.0.1',
   user: 'root',
@@ -10,7 +14,7 @@ const connection = mysql.createConnection({
 })
 
 router.get('/', function (req, res, next) {
-  connection.query(`select * from tasks;`, (error, results) => {
+  connection.query('select * from tasks;', (error, results) => {
     console.log(error)
     console.log(results)
     res.render('index', {

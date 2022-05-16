@@ -1,14 +1,15 @@
 version: '3'
 services:
-  mysql:
+  db:
     image: mysql:8.0
     platform: linux/amd64
     environment:
-      - MYSQL_DATABASE=${DATABASE}
-      - MYSQL_USER=${USERNAME}
-      - MYSQL_PASSWORD=${USERPASS}
-      - MYSQL_ROOT_PASSWORD=${ROOTPASS}
-      - TZ=Asia/Tokyo
+      - MYSQL_ROOT_HOST=${DB_ROOT_HOST}
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASS}
+      - MYSQL_ROOT_PASSWORD=${DB_PASS}
+      - TZ=${TZ}
     ports:
       - '3306:3306'
     volumes:
@@ -20,7 +21,11 @@ services:
     image: node
     env_file: ./app.env
     environment:
-      - TZ=Asia/Tokyo
+      - MYSQL_SERVER=db
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASS}
+      - MYSQL_DATABASE=${DB_NAME}
+      - TZ=${TZ}
       - DEBUG=app:*
     tty: true
     ports:
@@ -32,7 +37,7 @@ services:
     networks:
       - default
     depends_on:
-      - mysql
+      - db
 networks:
   default:
 # コンテナが削除されてもデータが消えずに保持される
