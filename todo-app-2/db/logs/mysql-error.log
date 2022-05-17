@@ -40,3 +40,28 @@
 2022-05-16T17:30:38.785754+09:00 0 [System] [MY-010931] [Server] /usr/sbin/mysqld: ready for connections. Version: '8.0.23'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  MySQL Community Server - GPL.
 2022-05-16T17:33:21.119323+09:00 0 [System] [MY-013172] [Server] Received SHUTDOWN from user <via user signal>. Shutting down mysqld (Version: 8.0.23).
 2022-05-16T17:33:21.554196+09:00 0 [System] [MY-010910] [Server] /usr/sbin/mysqld: Shutdown complete (mysqld 8.0.23)  MySQL Community Server - GPL.
+2022-05-17T19:13:04.012371+09:00 0 [System] [MY-010116] [Server] /usr/sbin/mysqld (mysqld 8.0.23) starting as process 1
+2022-05-17T19:13:04.141447+09:00 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2022-05-17T19:13:04.190053+09:00 1 [ERROR] [MY-012585] [InnoDB] Linux Native AIO interface is not supported on this platform. Please check your OS documentation and install appropriate binary of InnoDB.
+2022-05-17T19:13:04.194013+09:00 1 [Warning] [MY-012654] [InnoDB] Linux Native AIO disabled.
+2022-05-17T19:13:04.993008+09:00 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2022-05-17T19:13:05.762784+09:00 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060, socket: /var/run/mysqld/mysqlx.sock
+2022-05-17T19:13:06.058927+09:00 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2022-05-17T19:13:06.061847+09:00 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2022-05-17T19:13:06.077461+09:00 0 [Warning] [MY-011810] [Server] Insecure configuration for --pid-file: Location '/var/run/mysqld' in the path is accessible to all OS users. Consider choosing a different directory.
+2022-05-17T19:13:06.245398+09:00 0 [System] [MY-010931] [Server] /usr/sbin/mysqld: ready for connections. Version: '8.0.23'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  MySQL Community Server - GPL.
+2022-05-17T20:10:46.315264+09:00 0 [System] [MY-013172] [Server] Received SHUTDOWN from user <via user signal>. Shutting down mysqld (Version: 8.0.23).
+2022-05-17T20:10:48.359125+09:00 0 [Warning] [MY-010909] [Server] /usr/sbin/mysqld: Forcing close of thread 13  user: 'root'.
+2022-05-17T20:10:48.817848+09:00 0 [System] [MY-010910] [Server] /usr/sbin/mysqld: Shutdown complete (mysqld 8.0.23)  MySQL Community Server - GPL.
+2022-05-17T20:11:00.760279+09:00 0 [System] [MY-010116] [Server] /usr/sbin/mysqld (mysqld 8.0.23) starting as process 1
+2022-05-17T20:11:00.908839+09:00 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2022-05-17T20:11:00.947950+09:00 1 [ERROR] [MY-012585] [InnoDB] Linux Native AIO interface is not supported on this platform. Please check your OS documentation and install appropriate binary of InnoDB.
+2022-05-17T20:11:00.949415+09:00 1 [Warning] [MY-012654] [InnoDB] Linux Native AIO disabled.
+2022-05-17T20:11:01.521352+09:00 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2022-05-17T20:11:03.022802+09:00 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060, socket: /var/run/mysqld/mysqlx.sock
+2022-05-17T20:11:03.420209+09:00 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2022-05-17T20:11:03.422820+09:00 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2022-05-17T20:11:03.438215+09:00 0 [Warning] [MY-011810] [Server] Insecure configuration for --pid-file: Location '/var/run/mysqld' in the path is accessible to all OS users. Consider choosing a different directory.
+2022-05-17T20:11:03.671299+09:00 0 [System] [MY-010931] [Server] /usr/sbin/mysqld: ready for connections. Version: '8.0.23'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  MySQL Community Server - GPL.
+2022-05-17T21:31:27.306978+09:00 0 [System] [MY-013172] [Server] Received SHUTDOWN from user <via user signal>. Shutting down mysqld (Version: 8.0.23).
+2022-05-17T21:31:27.732254+09:00 0 [System] [MY-010910] [Server] /usr/sbin/mysqld: Shutdown complete (mysqld 8.0.23)  MySQL Community Server - GPL.

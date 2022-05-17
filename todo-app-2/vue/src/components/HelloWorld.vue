@@ -1,41 +1,91 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+    <form>
+      <input type="text" style="display: none" />
+      <input v-model="currentTask" type="text" />
+      <input type="button" value="add!" @click="taskCreate" />
+    </form>
+    <table align="center" border="0">
+      <tr>
+        <th>done</th>
+        <th>task</th>
+        <th>delete</th>
+      </tr>
+      <tr v-for="(task, index) in tasks" :key="task.id">
+        <td>
+          <input
+            type="checkbox"
+            v-model="task.done"
+            @change="taskUpdate(task.id, task.name, task.done)"
+          />
+        </td>
+        <td>
+          <input
+            type="text"
+            v-model="task.name"
+            @change="taskUpdate(task.id, task.name, task.done)"
+          />
+        </td>
+        <td>
+          <input
+            type="button"
+            value="delete"
+            @click="taskDelete(task.id, index)"
+          />
+        </td>
+      </tr>
+    </table>
   </div>
 </template>
-
 <script>
+import axios from 'axios'
 export default {
   name: 'HelloWorld',
-  props: {
-    msg: String
-  }
+  data: () => ({
+    tasks: [],
+    currentTask: '',
+  }),
+  created: async function () {
+    try {
+      const result = await axios.get('/task/')
+      this.tasks = result.data
+    } catch (err) {
+      alert(JSON.stringify(err))
+    }
+  },
+  methods: {
+    taskCreate: async function () {
+      try {
+        const result = await axios.post('/task/', {
+          name: this.currentTask,
+        })
+        this.tasks.push(result.data)
+        this.currentTask = ''
+      } catch (err) {
+        alert(JSON.stringify(err))
+      }
+    },
+    taskDelete: async function (id, index) {
+      try {
+        await axios.delete('/task/' + id)
+        this.currentTask = ''
+        this.tasks.splice(index, 1)
+      } catch (err) {
+        alert(JSON.stringify(err))
+      }
+    },
+    taskUpdate: async function (id, val, done) {
+      try {
+        await axios.put('/task/' + id, {
+          name: val,
+          done: done,
+        })
+        this.currentTask = ''
+      } catch (err) {
+        alert(JSON.stringify(err))
+      }
+    },
+  },
 }
 </script>
 
@@ -49,10 +99,13 @@ ul {
   padding: 0;
 }
 li {
-  display: inline-block;
   margin: 0 10px;
 }
 a {
   color: #42b983;
+}
+.table {
+  height: 100%;
+  text-align: center;
 }
 </style>

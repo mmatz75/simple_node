@@ -6,6 +6,9 @@ todo-app/
 sample.txt
 /dist
 
+# db logs
+db/logs/
+
 
 # local env files
 .env.local
